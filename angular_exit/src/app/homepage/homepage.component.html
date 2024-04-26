@@ -1,0 +1,102 @@
+<app-navbar></app-navbar>
+<div class="bg_image">
+    <br><br>
+    <div class="row text_right text-white ">
+        <div class="col ">
+            <h4>The Community</h4>
+            <span>Find Solution. Ask questions. Share ideas. <br> connect with users across the world</span>
+        </div>
+    </div>
+    <br>
+    <div class="container text-white px-4 py-3 my-3 ">
+        <div class="row justify-content-sm-center">
+            <div class="col-md-8 offset-md-2">
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        <div>
+                            <div>
+                                <button type="button" class="btn btn-light position-relative">
+                                    <i class="bi bi-people-fill"></i> Membres
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{users.length}}
+                                        <span class="visually-hidden">unread messages</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div>
+                            <button type="button" class="btn btn-light position-relative">
+                                <i class="bi bi-file-earmark-post"></i> Posts
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{community.length}}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 ">
+                        <div>
+                            <div>
+                                <button type="button" class="btn btn-light position-relative">
+                                    <i class="bi bi-x-diamond-fill"></i> Closed
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        0
+                                        <span class="visually-hidden">unread messages</span>
+                                    </span>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 offset-md-3  ">
+        <form [formGroup]="findQuestions" class="d-flex border border-dark rounded-pill ">
+            <input class="form-control rounded-pill card shadow-lg" type="search" formControlName="query"
+                placeholder="Type Here To Search Your Query" aria-label="Search">
+            <button [disabled]="!findQuestions.valid" class="btn btn-light rounded-pill" (click)="searchResult()"
+                type="submit"><i class="bi bi-search"></i></button>
+            <span class="text-danger"
+                *ngIf="findQuestions.controls['query'].dirty && findQuestions.hasError('required', 'query')">*Query is
+                required</span>
+        </form>
+    </div>
+</div>
+
+
+<div class="container my-3">
+    <div *ngIf="results">
+        <div *ngIf="filterQuestions.length>0; else other_content">
+            <div *ngFor="let filterSearch of filterQuestions">
+                <div class="row">
+                    <div class="col-sm-6 my-1" *ngFor="let question of filterQuestions">
+                        <div class="card text-dark bg-light" style="width: 18rem;">
+                            <div class="card-body">
+                                <h6 class="card-title"> {{question.subject}} </h6>
+                                <p class="card-text text-muted">Product: {{question.product}}</p>
+                                <button (click)="viewDetails(question.id)" class="">View
+                                    Details</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="#" class=""><i class="bi bi-balloon-heart-fill"></i> Like</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #other_content>
+            <span class="text-danger"><b>No results found</b></span>
+        </ng-template>
+    </div>
+</div>
+<app-footer></app-footer>
+<router-outlet></router-outlet>

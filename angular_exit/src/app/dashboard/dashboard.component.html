@@ -1,0 +1,136 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+       <a routerLink=""><img src="assets/images/logo2023.png" alt="" width="150" height="50"></a> 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item mx-3">
+                    <a  class="nav-link active" aria-current="page" href=""> Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Community
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/login">Post questions</a></li>
+                        <li><a class="dropdown-item" href="/login">Results</a></li>
+                        <li><a class="dropdown-item" href="/login">Question Search</a></li>
+                        <!-- <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                    </ul>
+                </li>
+
+            </ul>
+            <form class="d-flex">
+                <a routerLink="/login" class="btn btn-sm btn-success"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Middle View -->
+<div class="bg_image">
+    <br>
+    <div class="row text_right text-white ">
+        <div class="col ">
+            <h4>The Community</h4>
+            <span>Find Solution. Ask questions. Share ideas. <br> connect with community across the world</span>
+        </div>
+    </div>
+    <br><br>
+    <div class="container text-white px-4 py-3 my-3 ">
+        <!-- <div class="row justify-content-sm-center"> -->
+        <div class="col-md-8 offset-md-2">
+            <div class="row justify-content-sm-center">
+                <div class="col-sm-4 ">
+                    <div>
+                        <div>
+                            <button type="button" class="btn btn-light position-relative">
+                                <i class="bi bi-people-fill"></i> Membres
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{users.length}}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div>
+                        <button type="button" class="btn btn-light position-relative">
+                            <i class="bi bi-file-earmark-post"></i> Posts
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{community.length}}
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-4 ">
+                    <div>
+                        <div>
+                            <button type="button" class="btn btn-light position-relative">
+                                <i class="bi bi-x-diamond-fill"></i> Online
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    0
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Question Search -->
+<div class="row">
+    <div class="col-md-6 offset-md-3  ">
+        <form [formGroup]="findQuestions" class="d-flex border border-dark rounded-pill ">
+            <input class="form-control rounded-pill card shadow-lg" type="search" formControlName="query"
+                placeholder="Type Here To Search Your Query" aria-label="Search">
+            <button [disabled]="!findQuestions.valid" class="btn btn-light rounded-pill" (click)="searchResult()"
+                type="submit"><i class="bi bi-search"></i></button>
+            <span class="text-danger"
+                *ngIf="findQuestions.controls['query'].dirty && findQuestions.hasError('required', 'query')">*Query
+                is
+                required</span>
+        </form>
+    </div>
+</div>
+
+<div class="container my-3">
+    <div *ngIf="results">
+        <div *ngIf="filterQuestions.length>0; else other_content">
+            <div *ngFor="let filterSearch of filterQuestions">
+                <div class="row">
+                    <div class="col-sm-6 my-1" *ngFor="let question of filterQuestions">
+                        <div class="card text-dark bg-light" style="width: 18rem;">
+                            <div class="card-body">
+                                <h6 class="card-title"> {{question.subject}} </h6>
+                                <p class="card-text text-muted">Product: {{question.product}}</p>
+                                <a routerLink="/login" class="btn btn-warning">View
+                                    Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="#" class=""><i class="bi bi-balloon-heart-fill"></i> Views</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #other_content>
+            <span class="text-danger"><b>No results found</b></span>
+        </ng-template>
+    </div>
+</div>
